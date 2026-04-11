@@ -1,0 +1,11 @@
+Dados brutos (dataset_merged.csv)
+         │
+         ├── Passo 1 → Remover colunas irrelevantes
+         ├── Passo 2 → Tratar colunas redundantes
+         ├── Passo 3 → Converter tipos problemáticos
+         ├── Passo 4 → Checar e tratar outliers
+         ├── Passo 5 → Normalização (StandardScaler)
+         ├── Passo 6 → Split estratificado
+         └── Passo 7 → Balanceamento (Borderline-SMOTE)
+         
+	 s│dados prontos para Feature Engineering (Etapa 4)

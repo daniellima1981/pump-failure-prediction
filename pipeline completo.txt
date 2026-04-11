@@ -1,0 +1,70 @@
+[CSVs Kaggle]
+     │
+     ▼
+┌─────────────────────────────────────┐
+│  ETAPA 1 — INGESTÃO & MERGE         │
+│  • Ler OT, CP, FS, PF               │
+│  • Adicionar coluna "label"          │
+│  • Concatenar em um único DataFrame  │
+└─────────────────┬───────────────────┘
+                  │
+                  ▼
+┌─────────────────────────────────────┐
+│  ETAPA 2 — EDA                      			 │
+│  • Distribuição das classes          			 │
+│  • Correlação entre features         			 │
+│  • Detecção de outliers              			 │
+│  • Visualização de séries temporais  			 │
+└─────────────────┬───────────────────┘
+                  │
+                  ▼
+┌─────────────────────────────────────┐
+│  ETAPA 3 — PRÉ-PROCESSAMENTO        │
+│  • Tratar valores nulos              │
+│  • StandardScaler nas features       │
+│  • Borderline-SMOTE (desbalanceam.)  │
+└─────────────────┬───────────────────┘
+                  │
+                  ▼
+┌─────────────────────────────────────┐
+│  ETAPA 4 — FEATURE ENGINEERING      │
+│  • Rolling stats (mean, std, min,    │
+│    max) em janelas de 5s, 10s, 30s   │
+│  • Ratios entre sensores             │
+│  • Seleção de features (importância) │
+└─────────────────┬───────────────────┘
+                  │
+                  ▼
+┌─────────────────────────────────────┐
+│  ETAPA 5 — MODELAGEM                │
+│  • Split estratificado (70/15/15)    │
+│  • XGBoost (modelo principal)        │
+│  • Random Forest (baseline)          │
+│  • Cross-validation estratificado    │
+│  • Tuning com Optuna                 │
+└─────────────────┬───────────────────┘
+                  │
+                  ▼
+┌─────────────────────────────────────┐
+│  ETAPA 6 — AVALIAÇÃO                │
+│  • F1-score macro (métrica principal)│
+│  • Confusion Matrix                  │
+│  • ROC-AUC por classe                │
+│  • Feature importance                │
+└─────────────────┬───────────────────┘
+                  │
+                  ▼
+┌─────────────────────────────────────┐
+│  ETAPA 7 — PERSISTÊNCIA             │
+│  • Salvar scaler.joblib              │
+│  • Salvar xgboost_model.joblib       │
+└─────────────────┬───────────────────┘
+                  │
+                  ▼
+┌─────────────────────────────────────┐
+│  ETAPA 8 — DASHBOARD (Streamlit)    │
+│  • Upload de novo CSV de sensores    │
+│  • Predição em batch                 │
+│  • Exibição de score por amostra     │
+│  • Alertas visuais por classe        │
+└─────────────────────────────────────┘
