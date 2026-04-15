@@ -11,8 +11,17 @@ import joblib
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-MODELS_DIR = Path("models")
-PROCESSED_DIR = Path("data/processed")
+#MODELS_DIR = Path("models")
+#PROCESSED_DIR = Path("data/processed")
+
+ROOT_DIR      = Path(__file__).resolve().parent.parent.parent
+MODELS_DIR    = ROOT_DIR / "models"
+PROCESSED_DIR = ROOT_DIR / "data" / "processed"
+
+SCALER_PATH = MODELS_DIR / "scaler.joblib"
+INPUT_PATH  = PROCESSED_DIR / "dataset_merged.csv"
+
+
 
 #NO FEATURE COLUMNS LIST
 
@@ -171,7 +180,7 @@ def split_dataset(
 def fit_and_apply_scaler(
         df: pd.DataFrame,
         fit: bool = True,
-        scaler_path: str = "models/scaler.joblib"
+        scaler_path: str = SCALER_PATH
 ) -> tuple[pd.DataFrame, StandardScaler]:
     """
     APPLIES STANDARDSCALER TO NUMERICAL FEATURES.
@@ -246,7 +255,7 @@ def apply_smote(
     )
 
 def run_preprocessing_pipeline(
-        input_path: str = "data/processed/dataset_merged.csv",
+        input_path: str = INPUT_PATH,
 ) -> tuple:
     """
     Execute full pre-processing pipeline.

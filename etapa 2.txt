@@ -9,3 +9,12 @@ Dados brutos (dataset_merged.csv)
          └── Passo 7 → Balanceamento (Borderline-SMOTE)
          
 	 s│dados prontos para Feature Engineering (Etapa 4)
+
+
+1. Remover colunas irrelevantes   → menos ruído desde o início
+2. Remover redundantes            → antes de qualquer cálculo estatístico
+3. Tratar stan                    → decisão baseada em dados
+4. Clipar outliers                → antes de normalizar (outlier afeta scaler)
+5. Split estratificado            → ANTES de normalizar e SMOTE
+6. Normalização                   → fit só no treino, aplica nos 3 conjuntos
+7. Borderline-SMOTE               → só no treino, depois do split
