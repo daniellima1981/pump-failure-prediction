@@ -35,6 +35,37 @@ CLASS_ICONS = {
     "Falha Forçada 2":        "🔴",
 }
 
+@st.cache_data  
+def generate_test_sample() -> pd.DataFrame:
+    """
+    Gera um sample de teste diretamente dos dados processados.
+    Inclui amostras de todas as classes para demonstração completa.
+    """
+    import random
+
+    # Carrega o dataset processado
+    processed_path = ROOT_DIR / "data" / "processed" / "dataset_merged.csv"
+
+    if not processed_path.exists():
+        st.error(
+            f"Dataset not found at: {processed_path}\n\n"
+            "Please run the data pipeline first."
+        )
+        st.stop()
+
+    df = pd.read_csv(processed_path)
+
+    # Garante amostras de todas as classes — melhor para demonstração
+    # 50 amostras de cada classe → 200 amostras no total
+    sample = (
+        df.groupby("label_name", group_keys=False)
+        .apply(lambda x: x.sample(min(50, len(x)), random_state=42))
+        .reset_index(drop=True)
+    )
+
+    # Retorna apenas as features brutas — simula um CSV real de entrada
+    return sample[BASE_FEATURES]
+
 
 @st.cache_resource  
 
@@ -639,7 +670,6 @@ def render_alerts_table(results: pd.DataFrame):
         mime="text/csv"
     )
 
-
 def main():
     render_sidebar()
 
@@ -649,51 +679,94 @@ def main():
     )
     st.markdown("---")
 
-    st.markdown("### 📂 Upload Data")
-    uploaded_file = st.file_uploader(
-        label="Upload CSV with sensor readings",
-        type=["csv"],
-        help=f"CSV must contain: {', '.join(BASE_FEATURES)}"
-    )
+    # ── Seção de entrada de dados ────────────────────────────
+    st.markdown("### 📂 Data Input")
 
+    col_upload, col_test = st.columns([3, 1])
+
+    with col_upload:
+        uploaded_file = st.file_uploader(
+            label="Upload CSV with sensor readings",
+            type=["csv"],
+            help=f"CSV must contain: {', '.join(BASE_FEATURES)}"
+        )
+
+    with col_test:
+        st.markdown("**Or run a quick test:**")
+        run_test = st.button(
+            label="🧪 Run Test Sample",
+            help="Generates 200 samples (50 per class) from the dataset "
+                 "and runs the full prediction pipeline automatically.",
+            use_container_width=True,
+            type="primary"    # botão azul destacado
+        )
+
+    # ── Formato esperado ─────────────────────────────────────
     with st.expander("ℹ️ Expected CSV format"):
         example = pd.DataFrame(
             columns=BASE_FEATURES,
             data=[[0.0] * len(BASE_FEATURES)]
         )
         st.dataframe(example)
+        st.caption(
+            "The CSV must contain exactly these columns. "
+            "Extra columns will be ignored."
+        )
 
-    if uploaded_file is not None:
+    # ── Lógica de entrada ────────────────────────────────────
+    df_input = None
+    input_source = None
+
+    if run_test:
+        with st.spinner("🔄 Generating test sample..."):
+            df_input     = generate_test_sample()
+            input_source = "test"
+
+        st.info(
+            f"🧪 **Test mode** — {len(df_input)} samples generated "
+            f"(50 per class) from the training dataset."
+        )
+
+    elif uploaded_file is not None:
+        df_input     = pd.read_csv(uploaded_file)
+        input_source = "upload"
+
+    # ── Pipeline de predição ─────────────────────────────────
+    if df_input is not None:
 
         with st.spinner("🔄 Running predictions..."):
-            df_raw  = pd.read_csv(uploaded_file)
-            results = run_prediction_pipeline(df_raw)
+            results = run_prediction_pipeline(df_input)
 
-        st.success(f"✅ {len(results):,} samples processed!")
+        # Badge de fonte dos dados
+        if input_source == "test":
+            st.success(
+                f"✅ Test completed — {len(results):,} samples processed | "
+                f"Source: internal test sample"
+            )
+        else:
+            st.success(
+                f"✅ {len(results):,} samples processed | "
+                f"Source: {uploaded_file.name}"
+            )
+
         st.markdown("---")
 
-        # ── Bloco 1: Métricas resumo ─────────────────────────
+        # Renderiza todos os blocos
         render_summary_metrics(results)
         st.markdown("---")
-
-        # ── Bloco 2: KPIs de manutenção ──────────────────────
-        render_maintenance_kpis(results)        # ← novo
+        render_maintenance_kpis(results)
         st.markdown("---")
-
-        # ── Bloco 3: Trend Chart + P-F proxy ─────────────────
-        render_sensor_trends(df_raw, results)   # ← novo
+        render_sensor_trends(df_input, results)
         st.markdown("---")
-
-        # ── Bloco 4: Gráficos de distribuição ────────────────
         render_charts(results)
         st.markdown("---")
-
-        # ── Bloco 5: Tabela de alertas ───────────────────────
         render_alerts_table(results)
 
     else:
+        # Estado inicial — sem input
         st.info(
-            "👆 Upload a CSV with sensor readings to start diagnosis."
+            "👆 Upload a CSV with sensor readings or click "
+            "**Run Test Sample** to see a demonstration."
         )
         st.markdown("---")
         st.markdown("### 🏆 Model Performance (test set)")
@@ -706,4 +779,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
 
