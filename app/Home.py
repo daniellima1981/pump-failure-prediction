@@ -13,7 +13,7 @@ MODELS_DIR = ROOT_DIR / "models"
 
 # ── Configuração da página ───────────────────────────────────
 st.set_page_config(
-    page_title="Pump Failure Prediction",
+    page_title="Failure Prediction in Hydraulic Pumps",
     page_icon="🔧",
     layout="wide",           # usa toda a largura da tela
     initial_sidebar_state="expanded"

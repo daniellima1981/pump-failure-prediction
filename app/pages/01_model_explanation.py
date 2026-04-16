@@ -25,16 +25,16 @@ col1, col2 = st.columns([2, 1])
 
 with col1:
     st.markdown("""
-    **Title:** Machine Learning for Fault Prediction of Piston Pump
+    **Title:** Machine Learning for Failure Prediction in Hydraulic Pumps
     """)
 
-with col2:
-    st.info(
-        "📌 **Dataset available at:**\n\n"
-        "[Kaggle — Valve Plate Failure Prediction]"
-        "(https://www.kaggle.com/datasets/mbjunior/"
-        "valve-plate-failure-prediction-in-hydraulic-pumps)"
-    )
+#with col2:
+#    st.info(
+#        "📌 **Dataset available at:**\n\n"
+#        "[Kaggle — Valve Plate Failure Prediction]"
+#        "(https://www.kaggle.com/datasets/mbjunior/"
+#        "valve-plate-failure-prediction-in-hydraulic-pumps)"
+#    )
 
 st.markdown("### 🎯 Objective")
 st.markdown("""
