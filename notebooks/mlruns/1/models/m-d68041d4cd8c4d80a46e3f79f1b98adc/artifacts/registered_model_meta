@@ -1,0 +1,2 @@
+model_name: PumpFailurePredictor_XGBoost_Tuned
+model_version: '1'
