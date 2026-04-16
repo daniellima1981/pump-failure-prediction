@@ -199,7 +199,7 @@ def render_sidebar():
 
         st.markdown("---")
         st.caption("MVP — Pump Failure Prediction")
-        st.caption("Copper Mining | Predictive Maintenance")
+        st.caption("Predictive Maintenance")
 
 def render_summary_metrics(results: pd.DataFrame):
     """
