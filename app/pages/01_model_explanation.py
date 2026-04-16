@@ -25,7 +25,7 @@ col1, col2 = st.columns([2, 1])
 
 with col1:
     st.markdown("""
-    **Title:** Machine Learning for Failure Prediction in Hydraulic Pumps
+    **Title:** Machine Learning for Fault Prediction of Piston Pump
     """)
 
 #with col2:
@@ -242,40 +242,40 @@ st.markdown("---")
 # ════════════════════════════════════════════════════════════
 # SEÇÃO 3 — ARQUITETURA DO MVP
 # ════════════════════════════════════════════════════════════
-st.markdown("## 🏗️ MVP Architecture")
+#st.markdown("## 🏗️ MVP Architecture")
 
-st.markdown("""
-The predictive model was built following a structured ML pipeline:
-""")
+#st.markdown("""
+#The predictive model was built following a structured ML pipeline:
+#""")
 
-st.code("""
-[Raw Sensor Data — 7 features]
-         │
-         ▼
-[Pre-processing]
-  • Remove irrelevant columns (timestamps, redundant sensors)
-  • Handle missing values (median imputation)
-  • Clip outliers (Z-score threshold = 3.0)
-  • Stratified split: 70% train / 15% val / 15% test
-  • StandardScaler (fit on train only)
-  • Borderline-SMOTE (train only — avoids data leakage)
-         │
-         ▼
-[Feature Engineering — 37 features]
-  • 3 Ratio features  (flow/pressure relationships)
-  • 24 Rolling stats  (mean + std over 5s, 10s, 30s windows)
-  • 3 Delta features  (sample-to-sample variation)
-         │
-         ▼
-[XGBoost Classifier — Optuna Tuned (50 trials)]
-  n_estimators=588 | max_depth=10 | learning_rate=0.073
-         │
-         ▼
-[Output: 4-class diagnosis + confidence score]
-  ✅ Normal | ⚠️ Valve Plate Wear | 🔴 FF1 | 🔴 FF2
-""", language="text")
+#st.code("""
+#[Raw Sensor Data — 7 features]
+#         │
+#         ▼
+#[Pre-processing]
+#  • Remove irrelevant columns (timestamps, redundant sensors)
+#  • Handle missing values (median imputation)
+#  • Clip outliers (Z-score threshold = 3.0)
+#  • Stratified split: 70% train / 15% val / 15% test
+#  • StandardScaler (fit on train only)
+#  • Borderline-SMOTE (train only — avoids data leakage)
+#         │
+#         ▼
+#[Feature Engineering — 37 features]
+# • 3 Ratio features  (flow/pressure relationships)
+#  • 24 Rolling stats  (mean + std over 5s, 10s, 30s windows)
+#  • 3 Delta features  (sample-to-sample variation)
+#         │
+#         ▼
+#[XGBoost Classifier — Optuna Tuned (50 trials)]
+#  n_estimators=588 | max_depth=10 | learning_rate=0.073
+#         │
+#         ▼
+#[Output: 4-class diagnosis + confidence score]
+#  ✅ Normal | ⚠️ Valve Plate Wear | 🔴 FF1 | 🔴 FF2
+#""", language="text")
 
-st.markdown("---")
+#st.markdown("---")
 
 # ════════════════════════════════════════════════════════════
 # SEÇÃO 4 — PERFORMANCE FINAL
