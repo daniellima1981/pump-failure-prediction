@@ -172,12 +172,16 @@ def _apply_feature_engineering(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 def render_sidebar():
-    """
-    Sidebar with model filters.
-    """
     with st.sidebar:
-        st.image("https://img.icons8.com/color/96/pump.png", width=80)
-        st.title("🔧 Pump Failure\nPrediction")
+        # Carrega imagem local do repositório
+        icon_path = ROOT_DIR / "app" / "assets" / "pump.jpg"
+
+        if icon_path.exists():
+            st.image(str(icon_path), width=80)
+        else:
+            st.markdown("# 🔧")  # fallback se imagem não encontrada
+
+        st.title("Pump Failure\nPrediction")
         st.markdown("---")
 
         st.markdown("### 📦 Model in use")
@@ -185,7 +189,7 @@ def render_sidebar():
         st.caption(f"Features: {metadata['n_features']}")
 
         st.markdown("---")
-        st.markdown("### 🎨 Caption")
+        st.markdown("### 🎨 Legend")
         for classe, color in CLASS_COLORS.items():
             icon = CLASS_ICONS[classe]
             st.markdown(
