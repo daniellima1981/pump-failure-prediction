@@ -1,0 +1,66 @@
+artifact_path: file:///c:/git/pump-failure-prediction/notebooks/mlruns/1/models/m-55e5fcd64b1448d193693a2c1137b57b/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.11.4
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.6.1
+    skops_trusted_types: null
+is_signature_from_type_hint: false
+mlflow_version: 3.11.1
+model_id: m-55e5fcd64b1448d193693a2c1137b57b
+model_size_bytes: 23247935
+model_uuid: m-55e5fcd64b1448d193693a2c1137b57b
+prompts: null
+run_id: 0d4efce2b38948ae8251dd0d4ff929ac
+saved_input_example_info:
+  artifact_path: input_example.json
+  pandas_orient: split
+  serving_input_path: serving_input_example.json
+  type: dataframe
+signature:
+  inputs: '[{"type": "double", "name": "Pressure - leak line", "required": true},
+    {"type": "double", "name": "Temperature - leak line", "required": true}, {"type":
+    "double", "name": "Pressure - output", "required": true}, {"type": "double", "name":
+    "Temperature - output", "required": true}, {"type": "double", "name": "Flow -
+    leak line", "required": true}, {"type": "double", "name": "Flow - output", "required":
+    true}, {"type": "double", "name": "Temp. diff", "required": true}, {"type": "double",
+    "name": "ratio_flow_leak_output", "required": true}, {"type": "double", "name":
+    "ratio_pressure_leak_output", "required": true}, {"type": "double", "name": "ratio_temp_diff_output",
+    "required": true}, {"type": "double", "name": "pressure__leak_line_mean_5s", "required":
+    true}, {"type": "double", "name": "pressure__leak_line_std_5s", "required": true},
+    {"type": "double", "name": "pressure__leak_line_mean_10s", "required": true},
+    {"type": "double", "name": "pressure__leak_line_std_10s", "required": true}, {"type":
+    "double", "name": "pressure__leak_line_mean_30s", "required": true}, {"type":
+    "double", "name": "pressure__leak_line_std_30s", "required": true}, {"type": "double",
+    "name": "temperature__leak_line_mean_5s", "required": true}, {"type": "double",
+    "name": "temperature__leak_line_std_5s", "required": true}, {"type": "double",
+    "name": "temperature__leak_line_mean_10s", "required": true}, {"type": "double",
+    "name": "temperature__leak_line_std_10s", "required": true}, {"type": "double",
+    "name": "temperature__leak_line_mean_30s", "required": true}, {"type": "double",
+    "name": "temperature__leak_line_std_30s", "required": true}, {"type": "double",
+    "name": "flow__leak_line_mean_5s", "required": true}, {"type": "double", "name":
+    "flow__leak_line_std_5s", "required": true}, {"type": "double", "name": "flow__leak_line_mean_10s",
+    "required": true}, {"type": "double", "name": "flow__leak_line_std_10s", "required":
+    true}, {"type": "double", "name": "flow__leak_line_mean_30s", "required": true},
+    {"type": "double", "name": "flow__leak_line_std_30s", "required": true}, {"type":
+    "double", "name": "flow__output_mean_5s", "required": true}, {"type": "double",
+    "name": "flow__output_std_5s", "required": true}, {"type": "double", "name": "flow__output_mean_10s",
+    "required": true}, {"type": "double", "name": "flow__output_std_10s", "required":
+    true}, {"type": "double", "name": "flow__output_mean_30s", "required": true},
+    {"type": "double", "name": "flow__output_std_30s", "required": true}, {"type":
+    "double", "name": "pressure__output_delta", "required": true}, {"type": "double",
+    "name": "pressure__leak_line_delta", "required": true}, {"type": "double", "name":
+    "flow__output_delta", "required": true}]'
+  outputs: '[{"type": "long", "required": true}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2026-04-16 00:20:26.329420'
