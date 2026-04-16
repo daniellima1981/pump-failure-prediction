@@ -683,7 +683,16 @@ def main():
     )
     st.markdown("---")
 
-    # ── Seção de entrada de dados ────────────────────────────
+    # ── Inicializa session_state ─────────────────────────────
+    
+    if "df_input" not in st.session_state:
+        st.session_state.df_input     = None
+    if "results" not in st.session_state:
+        st.session_state.results      = None
+    if "input_source" not in st.session_state:
+        st.session_state.input_source = None
+
+    # ── Seção de entrada ─────────────────────────────────────
     st.markdown("### 📂 Data Input")
 
     col_upload, col_test = st.columns([3, 1])
@@ -699,75 +708,72 @@ def main():
         st.markdown("**Or run a quick test:**")
         run_test = st.button(
             label="🧪 Run Test Sample",
-            help="Generates 200 samples (50 per class) from the dataset "
-                 "and runs the full prediction pipeline automatically.",
             use_container_width=True,
-            type="primary"    # botão azul destacado
+            type="primary"
         )
 
-    # ── Formato esperado ─────────────────────────────────────
     with st.expander("ℹ️ Expected CSV format"):
         example = pd.DataFrame(
             columns=BASE_FEATURES,
             data=[[0.0] * len(BASE_FEATURES)]
         )
         st.dataframe(example)
-        st.caption(
-            "The CSV must contain exactly these columns. "
-            "Extra columns will be ignored."
-        )
 
-    # ── Lógica de entrada ────────────────────────────────────
-    df_input = None
-    input_source = None
-
+    # ── Processa entrada e salva no session_state ────────────
+    # Só reprocessa quando há nova entrada —
+    # não reprocessa quando o usuário muda o selectbox
     if run_test:
         with st.spinner("🔄 Generating test sample..."):
-            df_input     = generate_test_sample()
-            input_source = "test"
+            df_input = generate_test_sample()
+            results  = run_prediction_pipeline(df_input)
 
-        st.info(
-            f"🧪 **Test mode** — {len(df_input)} samples generated "
-            f"(50 per class) from the training dataset."
-        )
+        # Salva no session_state — persiste entre re-runs
+        st.session_state.df_input     = df_input
+        st.session_state.results      = results
+        st.session_state.input_source = "test"
 
     elif uploaded_file is not None:
-        df_input     = pd.read_csv(uploaded_file)
-        input_source = "upload"
+        # Verifica se é um arquivo novo — evita reprocessar
+        # o mesmo arquivo a cada re-run
+        file_id = uploaded_file.file_id  # ID único por upload
 
-    # ── Pipeline de predição ─────────────────────────────────
-    if df_input is not None:
+        if st.session_state.get("file_id") != file_id:
+            with st.spinner("🔄 Running predictions..."):
+                df_input = pd.read_csv(uploaded_file)
+                results  = run_prediction_pipeline(df_input)
 
-        with st.spinner("🔄 Running predictions..."):
-            results = run_prediction_pipeline(df_input)
+            # Salva no session_state
+            st.session_state.df_input     = df_input
+            st.session_state.results      = results
+            st.session_state.input_source = "upload"
+            st.session_state.file_id      = file_id
 
-        # Badge de fonte dos dados
-        if input_source == "test":
-            st.success(
-                f"✅ Test completed — {len(results):,} samples processed | "
-                f"Source: internal test sample"
+    # ── Renderiza dashboard se houver dados ──────────────────
+    # Lê do session_state — persiste mesmo quando selectbox muda
+    if st.session_state.results is not None:
+
+        if st.session_state.input_source == "test":
+            st.info(
+                f"🧪 **Test mode** — {len(st.session_state.df_input):,} "
+                f"samples generated (50 per class)"
             )
         else:
             st.success(
-                f"✅ {len(results):,} samples processed | "
-                f"Source: {uploaded_file.name}"
+                f"✅ {len(st.session_state.results):,} samples processed"
             )
 
         st.markdown("---")
-
-        # Renderiza todos os blocos
-        render_summary_metrics(results)
+        render_summary_metrics(st.session_state.results)
         st.markdown("---")
-        render_maintenance_kpis(results)
+        render_maintenance_kpis(st.session_state.results)
         st.markdown("---")
-        render_sensor_trends(df_input, results)
+        render_sensor_trends(st.session_state.df_input, st.session_state.results)
         st.markdown("---")
-        render_charts(results)
+        render_charts(st.session_state.results)
         st.markdown("---")
-        render_alerts_table(results)
+        render_alerts_table(st.session_state.results)
 
     else:
-        # Estado inicial — sem input
         st.info(
             "👆 Upload a CSV with sensor readings or click "
             "**Run Test Sample** to see a demonstration."
@@ -783,6 +789,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
