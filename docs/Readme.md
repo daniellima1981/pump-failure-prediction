@@ -1,5 +1,7 @@
 # 📋 Business Documentation — Pump Failure Prediction MVP
 
+## link: https://pump-failure-prediction-83amwqjdeui8uqnrxbtu27.streamlit.app/
+
 ## 1. Problem Definition
 
 ### Business Context
