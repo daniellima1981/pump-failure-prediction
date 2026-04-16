@@ -1,0 +1,14 @@
+artifact_uri: file:///C:\git\pump-failure-prediction\mlruns/290697122907952556/dcc0184c37d74839a28c2b547372ef0a/artifacts
+end_time: 1776294325275
+entry_point_name: ''
+experiment_id: '290697122907952556'
+lifecycle_stage: active
+run_id: dcc0184c37d74839a28c2b547372ef0a
+run_name: RandomForest
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1776293807268
+status: 3
+tags: []
+user_id: daniel.lima

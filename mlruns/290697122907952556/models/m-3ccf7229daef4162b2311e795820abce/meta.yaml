@@ -1,0 +1,10 @@
+artifact_location: file:///C:\git\pump-failure-prediction\mlruns/290697122907952556/models/m-3ccf7229daef4162b2311e795820abce/artifacts
+creation_timestamp: 1776293778898
+experiment_id: '290697122907952556'
+last_updated_timestamp: 1776293806812
+model_id: m-3ccf7229daef4162b2311e795820abce
+model_type: null
+name: XGBoost_Tuned
+source_run_id: 29e8eb39a1854651ace6138e755474e3
+status: 2
+status_message: null

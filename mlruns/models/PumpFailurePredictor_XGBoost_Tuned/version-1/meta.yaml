@@ -1,0 +1,16 @@
+creation_timestamp: 1776293807015
+current_stage: None
+deployment_job_state: null
+description: null
+last_updated_timestamp: 1776293807015
+model_id: m-3ccf7229daef4162b2311e795820abce
+name: PumpFailurePredictor_XGBoost_Tuned
+run_id: 29e8eb39a1854651ace6138e755474e3
+run_link: null
+source: models:/m-3ccf7229daef4162b2311e795820abce
+status: READY
+status_message: null
+storage_location: file:///C:\git\pump-failure-prediction\mlruns/290697122907952556/models/m-3ccf7229daef4162b2311e795820abce/artifacts
+user_id: null
+version: 1
+workspace: default

@@ -1,0 +1,14 @@
+artifact_uri: file:///C:\git\pump-failure-prediction\mlruns/290697122907952556/56203276a2a942a39db2fce4f08ea19e/artifacts
+end_time: 1776286543735
+entry_point_name: ''
+experiment_id: '290697122907952556'
+lifecycle_stage: active
+run_id: 56203276a2a942a39db2fce4f08ea19e
+run_name: XGBoost_Tuned
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1776286237079
+status: 4
+tags: []
+user_id: daniel.lima

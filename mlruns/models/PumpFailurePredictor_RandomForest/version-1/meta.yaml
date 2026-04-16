@@ -1,0 +1,16 @@
+creation_timestamp: 1776294325123
+current_stage: None
+deployment_job_state: null
+description: null
+last_updated_timestamp: 1776294325123
+model_id: m-104a35cf958d44dda530b2ea5cc0cd23
+name: PumpFailurePredictor_RandomForest
+run_id: dcc0184c37d74839a28c2b547372ef0a
+run_link: null
+source: models:/m-104a35cf958d44dda530b2ea5cc0cd23
+status: READY
+status_message: null
+storage_location: file:///C:\git\pump-failure-prediction\mlruns/290697122907952556/models/m-104a35cf958d44dda530b2ea5cc0cd23/artifacts
+user_id: null
+version: 1
+workspace: default

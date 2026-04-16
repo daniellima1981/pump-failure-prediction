@@ -1,0 +1,10 @@
+artifact_location: file:///C:\git\pump-failure-prediction\mlruns/290697122907952556/models/m-104a35cf958d44dda530b2ea5cc0cd23/artifacts
+creation_timestamp: 1776294310352
+experiment_id: '290697122907952556'
+last_updated_timestamp: 1776294325070
+model_id: m-104a35cf958d44dda530b2ea5cc0cd23
+model_type: null
+name: RandomForest
+source_run_id: dcc0184c37d74839a28c2b547372ef0a
+status: 2
+status_message: null

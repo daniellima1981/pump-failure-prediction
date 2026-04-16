@@ -1,0 +1,8 @@
+aliases: {}
+creation_timestamp: 1776294325108
+deployment_job_id: null
+deployment_job_state: null
+description: null
+last_updated_timestamp: 1776294325123
+name: PumpFailurePredictor_RandomForest
+workspace: default

@@ -1,0 +1,14 @@
+artifact_uri: file:///C:\git\pump-failure-prediction\mlruns/290697122907952556/4e033821a58d468f8e71ec205c0068fd/artifacts
+end_time: 1776286237031
+entry_point_name: ''
+experiment_id: '290697122907952556'
+lifecycle_stage: active
+run_id: 4e033821a58d468f8e71ec205c0068fd
+run_name: Optuna_Tuning
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1776286236652
+status: 3
+tags: []
+user_id: daniel.lima

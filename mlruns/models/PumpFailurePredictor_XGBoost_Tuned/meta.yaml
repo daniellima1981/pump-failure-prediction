@@ -1,0 +1,8 @@
+aliases: {}
+creation_timestamp: 1776293806996
+deployment_job_id: null
+deployment_job_state: null
+description: null
+last_updated_timestamp: 1776293807015
+name: PumpFailurePredictor_XGBoost_Tuned
+workspace: default
