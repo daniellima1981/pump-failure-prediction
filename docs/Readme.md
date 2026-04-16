@@ -1,132 +1,127 @@
-{
- "cells": [
-  {
-   "cell_type": "markdown",
-   "id": "a105f0f0",
-   "metadata": {},
-   "source": [
-    "# 🔧 Pump Failure Prediction — MVP\n",
-    "\n",
-    "Predictive maintenance model for hydraulic piston pump valve plate failure\n",
-    "detection, developed for copper mining production environments.\n",
-    "\n",
-    "## 🎯 Overview\n",
-    "\n",
-    "This project implements a **4-class classification model** that diagnoses\n",
-    "the operational state of a hydraulic pump based on 7 sensor readings:\n",
-    "\n",
-    "| Class | Description |\n",
-    "|---|---|\n",
-    "| ✅ Normal | Standard operation |\n",
-    "| ⚠️ Valve Plate Wear | Progressive degradation |\n",
-    "| 🔴 Simulated Failure 1 | First level forced failure |\n",
-    "| 🔴 Simulated Failure 2 | Second level forced failure |\n",
-    "\n",
-    "**Final model performance (test set):**\n",
-    "- F1-Macro: **99.72%**\n",
-    "- ROC-AUC: **100.0%**\n",
-    "- False Negative Rate (Failure → Normal): **~0.0%**\n",
-    "\n",
-    "## 🏗️ Architecture\n",
-    "\n",
-    "```\n",
-    "Raw Data → Preprocessing → Feature Engineering → XGBoost → Dashboard\n",
-    "```\n",
-    "\n",
-    "Full pipeline documentation: [docs/04_technical_documentation.md](docs/04_technical_documentation.md)\n",
-    "\n",
-    "## 🚀 Quick Start\n",
-    "\n",
-    "### 1. Clone the repository\n",
-    "```bash\n",
-    "git clone https://github.com/your-org/pump-failure-prediction.git\n",
-    "cd pump-failure-prediction\n",
-    "```\n",
-    "\n",
-    "### 2. Install dependencies\n",
-    "```bash\n",
-    "pip install -r requirements.txt\n",
-    "```\n",
-    "\n",
-    "### 3. Download the dataset\n",
-    "Download from [Kaggle](https://www.kaggle.com/datasets/mbjunior/valve-plate-failure-prediction-in-hydraulic-pumps)\n",
-    "and place CSV files in `data/raw/`.\n",
-    "\n",
-    "### 4. Run the full pipeline\n",
-    "```python\n",
-    "# In a notebook or Python script\n",
-    "from src.data.loader import main as load_data\n",
-    "from src.data.preprocessor import run_preprocessing_pipeline\n",
-    "from src.features.engineer import run_feature_engineering\n",
-    "from src.models.trainer import run_training_pipeline\n",
-    "from src.models.evaluator import run_evaluation\n",
-    "from src.models.persistor import run_persistence_pipeline, save_model_metadata\n",
-    "\n",
-    "load_data()\n",
-    "X_train, X_val, X_test, y_train, y_val, y_test = run_preprocessing_pipeline()\n",
-    "X_train, X_val, X_test = run_feature_engineering(X_train, X_val, X_test)\n",
-    "run_training_pipeline(X_train, y_train, X_val, y_val)\n",
-    "run_evaluation(X_test, y_test)\n",
-    "run_persistence_pipeline()\n",
-    "save_model_metadata(feature_names=X_train.columns.tolist())\n",
-    "```\n",
-    "\n",
-    "### 5. Run the dashboard\n",
-    "```bash\n",
-    "streamlit run app/Home.py\n",
-    "```\n",
-    "\n",
-    "### 6. Run MLflow UI\n",
-    "```bash\n",
-    "mlflow ui --backend-store-uri sqlite:///mlflow.db\n",
-    "```\n",
-    "\n",
-    "## 📁 Project Structure\n",
-    "\n",
-    "See [docs/04_technical_documentation.md](docs/04_technical_documentation.md)\n",
-    "\n",
-    "## 📚 Documentation\n",
-    "\n",
-    "| Document | Description |\n",
-    "|---|---|\n",
-    "| [01_business_documentation.md](docs/01_business_documentation.md) | Problem definition, metrics, stakeholders |\n",
-    "| [02_data_documentation.md](docs/02_data_documentation.md) | Data dictionary, EDA, feature engineering |\n",
-    "| [03_model_documentation.md](docs/03_model_documentation.md) | Experiments, hyperparameters, performance |\n",
-    "| [04_technical_documentation.md](docs/04_technical_documentation.md) | Pipeline, structure, MLOps |\n",
-    "\n",
-    "## 📦 Stack\n",
-    "\n",
-    "```\n",
-    "pandas          → data manipulation\n",
-    "scikit-learn    → preprocessing, metrics, Random Forest\n",
-    "imbalanced-learn→ Borderline-SMOTE\n",
-    "xgboost         → main classifier\n",
-    "optuna          → hyperparameter tuning\n",
-    "mlflow          → experiment tracking and model registry\n",
-    "joblib          → model serialization\n",
-    "streamlit       → dashboard\n",
-    "plotly          → interactive charts\n",
-    "```\n",
-    "\n",
-    "## 📖 Reference\n",
-    "\n",
-    "Rojek, M. & Blachnik, M. (2024).\n",
-    "*Machine Learning for Valve Plate Fault Prediction of Piston Pump.*\n",
-    "Applied Sciences, 14(16), 7183.\n",
-    "DOI: [10.3390/app14167183](https://doi.org/10.3390/app14167183)\n",
-    "\n",
-    "## 👤 Author\n",
-    "\n",
-    "Daniel Pereira de Lima\n",
-    "Data & Analytics Consultant — Mining Industry"
-   ]
-  }
- ],
- "metadata": {
-  "language_info": {
-   "name": "python"
-  }
- },
- "nbformat": 4,
- "nbformat_minor": 5
-}
+# 📋 Business Documentation — Pump Failure Prediction MVP
+
+## 1. Problem Definition
+
+### Business Context
+Hydraulic piston pumps are critical components in copper mining production
+processes. Unplanned pump failures cause:
+
+- **Production stoppage** — direct revenue loss
+- **Emergency maintenance costs** — 3-5x more expensive than planned maintenance
+- **Safety risks** — hydraulic fluid leaks under high pressure
+- **Cascading failures** — downstream equipment damage
+
+### Problem Statement
+Currently, pump maintenance is performed on a **fixed schedule** (time-based),
+regardless of the actual condition of the equipment. This approach leads to:
+
+| Issue | Impact |
+|---|---|
+| Premature maintenance | Unnecessary cost and downtime |
+| Late maintenance | Unplanned failures and production loss |
+| No early warning | Reactive instead of proactive response |
+
+### Proposed Solution
+A **machine learning classification model** that analyzes real-time sensor
+readings and diagnoses the operational state of the pump, enabling:
+
+- Early detection of valve plate degradation
+- Transition from time-based to **condition-based maintenance**
+- Prioritization of maintenance actions based on failure severity
+
+---
+
+## 2. Business Objective
+
+> **Primary objective:** Detect pump valve plate failures before they cause
+> unplanned production stoppages, reducing emergency maintenance costs and
+> increasing equipment availability.
+
+### Scope
+- **Equipment:** Hydraulic piston pumps used in copper ore processing
+- **Component:** Valve plate (most frequent failure mode)
+- **Deployment:** MVP — batch prediction via CSV upload on Streamlit dashboard
+- **Future scope:** Real-time inference integrated with SCADA/OT systems
+
+---
+
+## 3. Success Metrics
+
+### 3.1 Technical Metrics
+
+| Metric | Target | Achieved | Status |
+|---|---|---|---|
+| F1-Macro (test set) | > 90% | **99.72%** | ✅ |
+| ROC-AUC (test set) | > 95% | **100.0%** | ✅ |
+| F1 — Simulated Failure 1 | > 85% | **99.61%** | ✅ |
+| F1 — Simulated Failure 2 | > 85% | **99.58%** | ✅ |
+| False Negative Rate (Failure→Normal) | < 5% | **~0.0%** | ✅ |
+
+> **Why F1-Macro as primary metric?**
+> Accuracy would be misleading with imbalanced classes. F1-Macro penalizes
+> equally errors across all classes, including rare failure states.
+
+> **Why False Negative Rate is critical?**
+> A failure classified as Normal (missed detection) is the most dangerous
+> error — it means the maintenance team receives no alert when action is needed.
+
+### 3.2 Business Metrics
+
+| Metric | Description | Target |
+|---|---|---|
+| **Mean Time Between Failures (MTBF)** | Average operating time between failures | Increase by 20% |
+| **Planned vs Unplanned Maintenance Ratio** | % of maintenance actions that were planned | > 80% planned |
+| **Early Detection Rate** | % of failures detected before functional failure | > 90% |
+| **False Alarm Rate** | % of Normal classified as Failure | < 5% |
+
+### 3.3 Definition of Done
+The MVP is considered successful when:
+- [x] Model F1-Macro > 90% on held-out test set
+- [x] Dashboard operational with CSV upload and visual alerts
+- [x] Zero False Negatives (Failure → Normal) on test set
+- [x] All artifacts versioned and reproducible via MLflow
+- [ ] Validated on real production pump data (next phase)
+
+---
+
+## 4. Stakeholders
+
+| Role | Interest | Involvement |
+|---|---|---|
+| Maintenance Engineer | Receives alerts, plans interventions | Primary user |
+| Maintenance Manager | KPIs, cost reduction | Dashboard consumer |
+| OT/IT Team | System integration, data pipeline | Technical integration |
+| Data Science Team | Model development and monitoring | Owner |
+
+---
+
+## 5. Risks and Limitations
+
+| Risk | Likelihood | Impact | Mitigation |
+|---|---|---|---|
+| Dataset from lab, not production | High | High | Validate with real pump data |
+| Sensor drift over time | Medium | High | Implement model monitoring |
+| New failure modes not in training | Medium | High | Periodic retraining |
+| Single pump type generalization | Medium | Medium | Test on different pump models |
+
+
+## 6. Scope Limitation — Equipment Applicability
+
+### Current MVP Scope
+The model was trained on data from a **hydraulic piston pump** (axial piston,
+45 cm³/rev, 37 kW, 1485 RPM). It is applicable to:
+- Hydraulic power units
+- Hydraulic drive systems in heavy mining equipment
+- Any axial piston pump with valve plate as critical component
+
+### Out of Scope (requires new dataset)
+| Equipment | Type | Main Failure Mode | Status |
+|---|---|---|---|
+| Higra Anfíbia | Centrifugal | Impeller wear, cavitation | ❌ Not covered |
+| Weir Warman | Centrifugal slurry | Liner/impeller wear | ❌ Not covered |
+| KSB Meganorm/MegaCPK | Centrifugal | Seal failure, cavitation | ❌ Not covered |
+
+### Next Steps
+1. Survey hydraulic piston pumps in current copper mining operations
+2. Identify centrifugal pump failure data availability
+3. Plan Phase 2 dataset collection for centrifugal pumps
