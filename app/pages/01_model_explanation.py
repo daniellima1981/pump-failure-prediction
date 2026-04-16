@@ -25,12 +25,7 @@ col1, col2 = st.columns([2, 1])
 
 with col1:
     st.markdown("""
-    **Title:** Machine Learning for Valve Plate Fault Prediction of Piston Pump
-
-    **Authors:** Marcin Rojek, Marcin Blachnik — Silesian University of Technology, Poland
-
-    **Published:** Applied Sciences, 2024, Vol. 14(16), 7183
-    [(DOI: 10.3390/app14167183)](https://doi.org/10.3390/app14167183)
+    **Title:** Machine Learning for Fault Prediction of Piston Pump
     """)
 
 with col2:
