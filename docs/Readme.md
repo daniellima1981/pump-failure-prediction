@@ -1,6 +1,7 @@
 # 📋 Business Documentation — Pump Failure Prediction MVP
 
 ## link: https://pump-failure-prediction-bhfv5dlamfpdvpobxuqofk.streamlit.app/
+### Dataset: https://www.kaggle.com/datasets/mbjunior/valve-plate-failure-prediction-in-hydraulic-pumps
 
 ## 1. Problem Definition
 
